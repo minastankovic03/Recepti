@@ -1,0 +1,46 @@
+version: "3.9"
+services:
+  backend:
+    build: ./backend
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    command: flask run --host=0.0.0.0 --port=5000
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      - FLASK_ENV=development
+      - SQLALCHEMY_DATABASE_URI=postgresql://postgres:pas123@db/app
+    depends_on:
+      - db
+
+  frontend:
+    image: node:18
+    working_dir: /app
+    volumes:
+      - ./frontend/frontend-app:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm start"
+    ports:
+      - "3000:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WDS_SOCKET_PORT=3000
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:17
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pas123
+      - POSTGRES_DB=db
+
+volumes:
+  postgres_data:
