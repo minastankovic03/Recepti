@@ -1,5 +1,16 @@
 version: "3.9"
 services:
+  db:
+    image: postgres:17
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pas123
+      - POSTGRES_DB=db
+
   backend:
     build: ./backend
     working_dir: /app
@@ -30,17 +41,6 @@ services:
       - WDS_SOCKET_PORT=3000
     depends_on:
       - backend
-
-  db:
-    image: postgres:17
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=pas123
-      - POSTGRES_DB=db
 
 volumes:
   postgres_data:
