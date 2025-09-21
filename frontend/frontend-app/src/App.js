@@ -176,6 +176,7 @@ function App() {
       await dodajUKupovinu(kupovinaNamirnica);
       const novaLista = await getKupovina();
       setKupovina(novaLista);
+      setKupovinaNamirnica({ ime: "", kolicina: "" });
     } catch (err) {
       console.error(err);
       alert("Neuspešno dodavanje u kupovinu.");

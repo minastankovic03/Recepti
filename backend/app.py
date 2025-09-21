@@ -399,7 +399,7 @@ with app.app_context():
         r8.sastojci.append(Sastojci(ime="Čokolada", kolicina="150 g"))
     
 
-        db.session.add_all([r1, r2,r3,r4,r5,r6,r7,r8])
+        db.session.add_all([r1,r2,r3,r4,r5,r6,r7,r8])
         db.session.commit()
 
 
